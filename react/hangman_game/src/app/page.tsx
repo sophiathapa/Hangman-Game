@@ -10,25 +10,27 @@ let letters = [
 
 
 export default function Home() {
-   const word = 'Hangman'
   const [ guessWord,setguessWord] = useState('_______')
   const [ image,setimage] = useState(1)
-  const correctWord = 'Hangman'
+  const [index,setIndex]  = useState([])
+  const correctWord = 'hangman'
   const handleGuess =(val)=>{
-    if ( !correctWord.includes(val)){
-        setimage(image+1)
-    } 
-    else {
-        guessWord.split('').map((val,id)=>{
-          
+      const isIncluded = correctWord.includes(val)
+    if (isIncluded){
+        const matchedIndex = correctWord.split('').map((item,id)=>{
+      if (item == val) 
+        return id 
+        }).filter(item=> item || item == 0)
+
+        setIndex([...index, ...matchedIndex])
+        guessWord.split("").map((val,id)=>{
         })
+    } 
+
+    else {     
+        setimage(image+1)
     }
   } 
-   
- 
-
-
-    
 
   return (
    <div className=" justify-center m-10 ">
@@ -40,7 +42,7 @@ export default function Home() {
       <div className="flex gap-3">
        {guessWord.split('').map((val,id)=>{
      return (<div key ={id} className="">
-           {val}
+           {index.includes(id) ? correctWord[id] : '_'}
      </div>)
   })}
   </div>
