@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {setCorrectWord, setGenre} from "@/features/genre/genreSlice"
-import { coreModule } from "@reduxjs/toolkit/query";
+import {setCorrectWord, setGenre, setGuessWord} from "@/features/genre/genreSlice"
 
 
 const animals = [
@@ -46,6 +45,7 @@ function Home ()
     } 
 
     dispatch(setCorrectWord(word))
+    dispatch(setGuessWord())
   }
      console.log(correctWord)
      console.log(guessWord)

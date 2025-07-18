@@ -1,5 +1,7 @@
 'use client'
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {setImage,setIndex,setColor} from '@/features/game/gameSlice'
 
 
 
@@ -13,13 +15,16 @@ const keyboard = [
 
 
 const Game = () => {
-  const [ guessWord,setguessWord] = useState('_______')
-  const [ image,setimage] = useState(1)
-  const [index,setIndex]  = useState([])
-  const[color,setColor] = useState('bg-black')
-  const correctWord = 'HANGMAN'
-
-
+  // const [ guessWord,setguessWord] = useState('_______')
+  // const [ image,setimage] = useState(1)
+  // const [index,setIndex]  = useState([])
+  // const[color,setColor] = useState('bg-black')
+  // const correctWord = 'HANGMAN'
+  const {correctWord,guessWord} = useSelector((state)=> state.genre)
+  const { image, color, index} = useSelector((state)=> state.game)
+  const dispatch = useDispatch();
+  
+  console.log(correctWord)
   const handleGuess =(val)=>{
       const isIncluded = correctWord.includes(val)
     if (isIncluded){
@@ -28,13 +33,13 @@ const Game = () => {
         return id 
         }).filter(item=> item || item == 0)
 
-        setIndex([...index, ...matchedIndex])
+        dispatch(setIndex([...index, ...matchedIndex]))
         
     } 
 
-    else {     
-        setimage(image+1)
-        setColor('bg-gray-500')
+    else {   
+           dispatch(setImage())
+        dispatch(setColor('bg-gray-500'))
     }
   } 
 
@@ -46,14 +51,14 @@ const Game = () => {
     </div>
     <div className=" flex  flex-col">
       <div className="flex gap-3 justify-center">
-       {guessWord.split('').map((val,id)=>{
+       {guessWord?.split('').map((val,id)=>{
      return (<div key ={id} className="">
            {index.includes(id) ? correctWord[id] : '_'}
      </div>)
   })}
   </div>
       <div className=" mt-15">
-      {(image < 7 && correctWord.length !== index.length) && keyboard.map((val,id)=>{
+      {(image < 7 && correctWord?.length !== index.length) && keyboard.map((val,id)=>{
         return(<div key = {id} className="flex justify-center item-center ">{
 
           val.map((item,idx)=>{
