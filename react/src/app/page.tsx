@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {setCorrectWord, setGenre, setGuessWord} from "@/features/genre/genreSlice"
+import { useRouter } from "next/navigation";
 
 
 const animals = [
@@ -29,6 +30,8 @@ function Home ()
 {
   const {genre, correctWord,guessWord} = useSelector((state)=> state.genre)
   const dispatch = useDispatch()
+  const router = useRouter()
+
     
   const selectWord = (getGenre) =>{
     let word = ""
@@ -46,7 +49,13 @@ function Home ()
 
     dispatch(setCorrectWord(word))
     dispatch(setGuessWord())
+    
+    setTimeout(() => {
+      router.push('/game')
+    }, 1000);
   }
+
+
      console.log(correctWord)
      console.log(guessWord)
   return (
