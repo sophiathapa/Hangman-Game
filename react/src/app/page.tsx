@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {setCorrectWord, setGenre, setGuessWord} from "@/features/genre/genreSlice"
+import {setCorrectWord, setGenre, setInitialGuess} from "@/features/genre/genreSlice"
 import { useRouter } from "next/navigation";
 
 
@@ -28,7 +28,7 @@ const things = [
 
 function Home ()
 {
-  const {genre, correctWord,guessWord} = useSelector((state)=> state.genre)
+  const {genre, correctWord,initialGuess} = useSelector((state)=> state.genre)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -48,18 +48,19 @@ function Home ()
     } 
 
     dispatch(setCorrectWord(word))
-    dispatch(setGuessWord())
+    dispatch(setInitialGuess(word))
     
     setTimeout(() => {
       router.push('/game')
-    }, 1000);
+    }, 500);
   }
 
 
      console.log(correctWord)
-     console.log(guessWord)
+     console.log(initialGuess)
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 to-green-200 p-4 font-sans">
+      
       {/* Main container for the UI kit */}
       <div className="relative bg-yellow-100 bg-opacity-80 rounded-2xl shadow-xl p-6 w-full max-w-sm border-4 border-yellow-200">
         {/* Top banner with "Game UI kit" title */}

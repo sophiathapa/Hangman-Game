@@ -3,9 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const gameSlice = createSlice({
   name: "game",
   initialState: {
-    image: "1",
+    image: 1,
     index: [],
     color: "bg-black",
+    guessWord :""
   },
   reducers: {
     setImage :(state)=>{
@@ -17,10 +18,13 @@ const gameSlice = createSlice({
 
     setIndex : (state,action)=>{
       state.index = action.payload
+    },
+    setGuessWord : (state,action)=>{
+      state.guessWord = action.payload
     }
   },
 });
 
 
-export const {setColor,setImage,setIndex} =  gameSlice.actions
+export const {setColor,setImage,setIndex,setGuessWord} =  gameSlice.actions
 export default gameSlice.reducer;
