@@ -5,12 +5,18 @@ type slicetype = {
   index: number[];
   color: string;
   guessWord: string;
+  keyboardColor : {
+    [key: string]: string};
 };
 const initialState: slicetype = {
   image: 1,
   index: [],
   color: "bg-black",
   guessWord: "",
+  keyboardColor :{
+    key:"",
+    color :""
+  },
 };
 
 const gameSlice = createSlice({
@@ -30,10 +36,14 @@ const gameSlice = createSlice({
     setGuessWord: (state, action) => {
       state.guessWord = action.payload;
     },
+    setKeyboardColor : (state,action)=>{
+       const {key,color} = action.payload
+       state.keyboardColor[key]= color
+    },
     setInitialState: () => initialState,
   },
 });
 
-export const { setColor, setImage, setIndex, setGuessWord, setInitialState } =
+export const { setColor, setImage, setIndex, setGuessWord, setInitialState ,setKeyboardColor} =
   gameSlice.actions;
 export default gameSlice.reducer;

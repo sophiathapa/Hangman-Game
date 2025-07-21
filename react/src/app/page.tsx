@@ -120,17 +120,6 @@ function Home ()
           >
             Things
           </button>
-
-          {/* Credits Button */}
-          <button
-            className="w-full py-3 px-4 rounded-xl text-gray-700 text-xl font-bold shadow-lg transform active:scale-95 transition-transform duration-150
-                             bg-gradient-to-r from-gray-200 to-gray-300 border-b-4 border-gray-500
-                             hover:from-gray-300 hover:to-gray-400"
-          >
-            Settings
-          </button>
-
-         
         </div>
       </div>
     </div>

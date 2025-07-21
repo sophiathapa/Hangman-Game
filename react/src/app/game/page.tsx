@@ -7,6 +7,7 @@ import {
   setColor,
   setGuessWord,
   setInitialState,
+  setKeyboardColor,
 } from "@/features/game/gameSlice";
 import { useRouter } from "next/navigation";
 import { persistor } from "../store";
@@ -20,7 +21,7 @@ const keyboard = [
 
 const Game = () => {
   const { correctWord, initialGuess } = useSelector((state) => state.genre);
-  const { image, index, guessWord } = useSelector((state) => state.game);
+  const { image, index, guessWord,keyboardColor } = useSelector((state) => state.game);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -35,9 +36,11 @@ const Game = () => {
         .filter((item) => item || item == 0);
 
       dispatch(setIndex([...index, ...matchedIndex]));
+      dispatch(setKeyboardColor({ key: val, color: "bg-green-400" }))
     } else {
       dispatch(setImage());
       dispatch(setColor("bg-gray-500"));
+      dispatch(setKeyboardColor({ key: val, color: "bg-red-400" }))
     }
     console.log(index);
   };
@@ -90,9 +93,10 @@ const Game = () => {
                     return (
                       <div
                         key={idx}
-                        className={`p-2 m-2 bg-black text-white`}
+                        className={`p-2 m-2 border-2 rounded-md border-black ${keyboardColor[item.toLowerCase()] || 'bg-white'} text-black`}
                         onClick={() => {
                           handleGuess(item.toLowerCase());
+                          
                         }}
                       >
                         {item}
