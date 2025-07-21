@@ -1,8 +1,10 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {setCorrectWord, setGenre, setInitialGuess} from "@/features/genre/genreSlice"
+import {setCorrectWord, setGenre, setInitialGuess, setInitialState1} from "@/features/genre/genreSlice"
 import { useRouter } from "next/navigation";
+import { persistor } from "./store";
+import { setInitialState } from "@/features/game/gameSlice";
 
 
 const animals = [
@@ -55,9 +57,17 @@ function Home ()
     }, 500);
   }
 
+   useEffect(()=>{
 
-     console.log(correctWord)
-     console.log(initialGuess)
+      const clearAll = async () => {
+        await persistor.purge();
+        dispatch(setInitialState());
+        dispatch(setInitialState1());
+      };
+    clearAll()
+   },[])
+  
+    
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 to-green-200 p-4 font-sans">
       
