@@ -1,7 +1,7 @@
 // src/components/ReduxProvider.js
 "use client"; // Mark as client component
 import { Provider } from 'react-redux';
-import { persistor, store } from '../app/store.js'; // Adjust path as needed
+import { persistor, store } from '../app/store.ts'; // Adjust path as needed
 import { PersistGate } from 'redux-persist/integration/react';
 
 

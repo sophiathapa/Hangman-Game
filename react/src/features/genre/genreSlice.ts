@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-type genreSliceType = {
+export type genreSliceType = {
   genre: string;
   correctWord: string;
   guessWord: string;

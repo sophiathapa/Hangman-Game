@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {setCorrectWord, setGenre, setInitialGuess, setInitialState1} from "@/features/genre/genreSlice"
+import {genreSliceType, setCorrectWord, setGenre, setInitialGuess, setInitialState1} from "@/features/genre/genreSlice"
 import { useRouter } from "next/navigation";
 import { persistor } from "./store";
 import { setInitialState } from "@/features/game/gameSlice";
@@ -30,12 +30,11 @@ const things = [
 
 function Home ()
 {
-  const {genre, correctWord,initialGuess} = useSelector((state)=> state.genre)
   const dispatch = useDispatch()
   const router = useRouter()
 
     
-  const selectWord = (getGenre) =>{
+  const selectWord = (getGenre : string) =>{
     let word = ""
     dispatch(setGenre(getGenre))
 
@@ -51,10 +50,7 @@ function Home ()
 
     dispatch(setCorrectWord(word))
     dispatch(setInitialGuess(word))
-    
-    setTimeout(() => {
-      router.push('/game')
-    }, 500);
+    router.push('/game')
   }
 
    useEffect(()=>{

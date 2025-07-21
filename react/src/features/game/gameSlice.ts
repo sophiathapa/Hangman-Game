@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type slicetype = {
+export type gameSliceType = {
   image: number;
   index: number[];
   color: string;
@@ -8,7 +8,7 @@ type slicetype = {
   keyboardColor : {
     [key: string]: string};
 };
-const initialState: slicetype = {
+const initialState: gameSliceType = {
   image: 1,
   index: [],
   color: "bg-black",

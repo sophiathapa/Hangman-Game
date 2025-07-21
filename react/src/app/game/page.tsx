@@ -1,17 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 import {
   setImage,
   setIndex,
   setColor,
   setGuessWord,
   setInitialState,
-  setKeyboardColor,
+  setKeyboardColor
 } from "@/features/game/gameSlice";
 import { useRouter } from "next/navigation";
 import { persistor } from "../store";
-import { setInitialState1 } from "@/features/genre/genreSlice";
+import {setInitialState1 } from "@/features/genre/genreSlice";
 
 const keyboard = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -20,17 +21,17 @@ const keyboard = [
 ];
 
 const Game = () => {
-  const { correctWord, initialGuess } = useSelector((state) => state.genre);
-  const { image, index, guessWord,keyboardColor } = useSelector((state) => state.game);
+  const { correctWord, initialGuess } = useSelector((state : RootState) => state.genre);
+  const { image, index, guessWord, keyboardColor } = useSelector((state: RootState) => state.game);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleGuess = (val) => {
+  const handleGuess = (val : string) => {
     const isIncluded = correctWord.includes(val);
     if (isIncluded) {
       const matchedIndex = correctWord
         .split("")
-        .map((item, id) => {
+        .map((item :string, id: number) => {
           if (item == val) return id;
         })
         .filter((item) => item || item == 0);
@@ -48,7 +49,7 @@ const Game = () => {
   useEffect(() => {
     const word = correctWord
       ?.split("")
-      .map((val, id) => (index.includes(id) ? correctWord[id] : "_"))
+      .map((val : string, id : number) => (index.includes(id) ? correctWord[id] : "_"))
       .join("");
 
     dispatch(setGuessWord(word));
@@ -75,7 +76,7 @@ const Game = () => {
         </div>
       <div className=" flex  flex-col">
         <div className="flex gap-3 justify-center text-2xl">
-          {guessWord?.split("").map((val,id) => {
+          {guessWord?.split("").map((val:string,id :number) => {
             return (
               <div key={id} className="">
                 {val}
