@@ -163,9 +163,6 @@ function Home() {
 
   return (
     <div className="min-h-screen flex  felx-col items-center justify-center bg-gradient-to-br from-blue-300 to-green-200 p-4 font-sans">
-       <h1 className=" text-4xl font-extrabold text-white mb-6 drop-shadow-lg">
-        Hangman
-      </h1>
 
       {/* Main container for the UI kit */}
       <div className="relative bg-yellow-100 bg-opacity-80 rounded-2xl shadow-xl p-6 w-full max-w-sm border-4 border-yellow-200">
