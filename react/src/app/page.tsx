@@ -1,72 +1,172 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {genreSliceType, setCorrectWord, setGenre, setInitialGuess, setInitialState1} from "@/features/genre/genreSlice"
+import {
+  genreSliceType,
+  setCorrectWord,
+  setGenre,
+  setInitialGuess,
+  setInitialState1,
+} from "@/features/genre/genreSlice";
 import { useRouter } from "next/navigation";
 import { persistor } from "./store";
 import { setInitialState } from "@/features/game/gameSlice";
 
-
 const animals = [
-    "Dog", "Cat", "Elephant", "Tiger", "Lion", "Bear", "Zebra", "Giraffe", "Kangaroo", "Monkey",
-    "Deer", "Fox", "Wolf", "Leopard", "Cheetah", "Rabbit", "Cow", "Buffalo", "Sheep", "Goat",
-    "Horse", "Donkey", "Pig", "Camel", "Panda", "Hippopotamus", "Rhinoceros", "Crocodile", "Alligator", "Ostrich",
-    "Peacock", "Eagle", "Falcon", "Owl", "Parrot", "Sparrow", "Pigeon", "Duck", "Goose", "Turkey",
-    "Chicken", "Hen", "Rooster", "Bat", "Whale", "Dolphin", "Shark", "Octopus", "Seal", "Penguin"
-]
+  "Dog",
+  "Cat",
+  "Elephant",
+  "Tiger",
+  "Lion",
+  "Bear",
+  "Zebra",
+  "Giraffe",
+  "Kangaroo",
+  "Monkey",
+  "Deer",
+  "Fox",
+  "Wolf",
+  "Leopard",
+  "Cheetah",
+  "Rabbit",
+  "Cow",
+  "Buffalo",
+  "Sheep",
+  "Goat",
+  "Horse",
+  "Donkey",
+  "Pig",
+  "Camel",
+  "Panda",
+  "Hippopotamus",
+  "Rhinoceros",
+  "Crocodile",
+  "Alligator",
+  "Ostrich",
+  "Peacock",
+  "Eagle",
+  "Falcon",
+  "Owl",
+  "Parrot",
+  "Sparrow",
+  "Pigeon",
+  "Duck",
+  "Goose",
+  "Turkey",
+  "Chicken",
+  "Hen",
+  "Rooster",
+  "Bat",
+  "Whale",
+  "Dolphin",
+  "Shark",
+  "Octopus",
+  "Seal",
+  "Penguin",
+];
 
 const fruits = [
-    "Apple", "Banana", "Orange", "Mango", "Grapes", "Pineapple", "Papaya", "Guava", "Strawberry", "Blueberry",
-    "Watermelon", "Cantaloupe", "Peach", "Pear", "Plum", "Cherry", "Lychee", "Kiwi", "Pomegranate", "Coconut",
-    "Lemon", "Lime", "Fig", "Avocado", "Date", "Blackberry", "Raspberry", "Tangerine", "Passionfruit", "Dragonfruit"
-]
+  "Apple",
+  "Banana",
+  "Orange",
+  "Mango",
+  "Grapes",
+  "Pineapple",
+  "Papaya",
+  "Guava",
+  "Strawberry",
+  "Blueberry",
+  "Watermelon",
+  "Cantaloupe",
+  "Peach",
+  "Pear",
+  "Plum",
+  "Cherry",
+  "Lychee",
+  "Kiwi",
+  "Pomegranate",
+  "Coconut",
+  "Lemon",
+  "Lime",
+  "Fig",
+  "Avocado",
+  "Date",
+  "Blackberry",
+  "Raspberry",
+  "Tangerine",
+  "Passionfruit",
+  "Dragonfruit",
+];
 
 const things = [
-    "Chair", "Table", "Fan", "Clock", "Bottle", "Pen", "Pencil", "Book", "Laptop", "Mobile",
-    "Television", "Camera", "Spoon", "Fork", "Knife", "Plate", "Cup", "Bag", "Shoes", "Watch",
-    "Mirror", "Window", "Door", "Curtain", "Broom", "Bed", "Pillow", "Blanket", "Towel", "Comb"
-]
+  "Chair",
+  "Table",
+  "Fan",
+  "Clock",
+  "Bottle",
+  "Pen",
+  "Pencil",
+  "Book",
+  "Laptop",
+  "Mobile",
+  "Television",
+  "Camera",
+  "Spoon",
+  "Fork",
+  "Knife",
+  "Plate",
+  "Cup",
+  "Bag",
+  "Shoes",
+  "Watch",
+  "Mirror",
+  "Window",
+  "Door",
+  "Curtain",
+  "Broom",
+  "Bed",
+  "Pillow",
+  "Blanket",
+  "Towel",
+  "Comb",
+];
 
+function Home() {
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-function Home ()
-{
-  const dispatch = useDispatch()
-  const router = useRouter()
+  const selectWord = (getGenre: string) => {
+    let word = "";
+    dispatch(setGenre(getGenre));
 
-    
-  const selectWord = (getGenre : string) =>{
-    let word = ""
-    dispatch(setGenre(getGenre))
-
-    if (getGenre ==="animals") {
-       word = animals[Math.floor(Math.random() * animals.length)]
+    if (getGenre === "animals") {
+      word = animals[Math.floor(Math.random() * animals.length)];
+    } else if (getGenre === "fruits") {
+      word = fruits[Math.floor(Math.random() * fruits.length)];
+    } else {
+      word = things[Math.floor(Math.random() * things.length)];
     }
-    else if (getGenre ==='fruits'){
-       word = fruits[Math.floor(Math.random() * fruits.length)]
-    }
-    else{
-       word = things[Math.floor(Math.random() * things.length)]
-    } 
 
-    dispatch(setCorrectWord(word))
-    dispatch(setInitialGuess(word))
-    router.push('/game')
-  }
+    dispatch(setCorrectWord(word));
+    dispatch(setInitialGuess(word));
+    router.push("/game");
+  };
 
-   useEffect(()=>{
+  useEffect(() => {
+    const clearAll = async () => {
+      await persistor.purge();
+      dispatch(setInitialState());
+      dispatch(setInitialState1());
+    };
+    clearAll();
+  }, []);
 
-      const clearAll = async () => {
-        await persistor.purge();
-        dispatch(setInitialState());
-        dispatch(setInitialState1());
-      };
-    clearAll()
-   },[])
-  
-    
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 to-green-200 p-4 font-sans">
-      
+    <div className="min-h-screen flex  felx-col items-center justify-center bg-gradient-to-br from-blue-300 to-green-200 p-4 font-sans">
+       <h1 className=" text-4xl font-extrabold text-white mb-6 drop-shadow-lg">
+        Hangman
+      </h1>
+
       {/* Main container for the UI kit */}
       <div className="relative bg-yellow-100 bg-opacity-80 rounded-2xl shadow-xl p-6 w-full max-w-sm border-4 border-yellow-200">
         {/* Top banner with "Game UI kit" title */}
@@ -86,9 +186,9 @@ function Home ()
             className="w-full py-3 px-4 rounded-xl text-white text-xl font-bold shadow-lg transform active:scale-95 transition-transform duration-150
                              bg-gradient-to-r from-yellow-400 to-yellow-600 border-b-4 border-yellow-800
                              hover:from-yellow-500 hover:to-yellow-700"
-                             onClick={()=>{
-                              selectWord("animals")
-                             }}
+            onClick={() => {
+              selectWord("animals");
+            }}
           >
             Animals
           </button>
@@ -98,9 +198,9 @@ function Home ()
             className="w-full py-3 px-4 rounded-xl text-white text-xl font-bold shadow-lg transform active:scale-95 transition-transform duration-150
                              bg-gradient-to-r from-blue-500 to-purple-600 border-b-4 border-purple-800
                              hover:from-blue-600 hover:to-purple-700"
-                             onClick={()=>{
-                              selectWord("fruits")
-                             }}
+            onClick={() => {
+              selectWord("fruits");
+            }}
           >
             Fruits
           </button>
@@ -110,9 +210,9 @@ function Home ()
             className="w-full py-3 px-4 rounded-xl text-white text-xl font-bold shadow-lg transform active:scale-95 transition-transform duration-150
                              bg-gradient-to-r from-lime-500 to-green-600 border-b-4 border-green-800
                              hover:from-lime-600 hover:to-green-700"
-                             onClick={()=>{
-                              selectWord("things")
-                             }}
+            onClick={() => {
+              selectWord("things");
+            }}
           >
             Things
           </button>
@@ -120,6 +220,6 @@ function Home ()
       </div>
     </div>
   );
-};
+}
 
 export default Home;
